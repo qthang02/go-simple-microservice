@@ -20,4 +20,6 @@ proto:
         --go-grpc_out=pb --go-grpc_opt=paths=source_relative \
 		--grpc-gateway_out=pb --grpc-gateway_opt=paths=source_relative \
         proto/*.proto
+test:
+	go test -v -cover ./...
 .PHONY: createdb dropdb new_migration migrateup migratedown server sqlcmd mock
