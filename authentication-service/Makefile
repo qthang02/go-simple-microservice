@@ -10,4 +10,14 @@ migratedown:
 	migrate -path db/migration -database "postgresql://root:secret@localhost:5432/micro_go?sslmode=disable" --verbose down
 server:
 	go run main.go
-.PHONY: createdb dropdb new_migration migrateup migratedown server
+sqlcmd:
+	docker run --rm -v "%cd%:/src" -w /src kjconroy/sqlc generate
+mock:
+	mockgen -package mockdb -destination db/mock/store.go authentication-service/db/sqlc Store
+proto:
+	rm -f pb/*.go
+	protoc --proto_path=proto --go_out=pb --go_opt=paths=source_relative \
+        --go-grpc_out=pb --go-grpc_opt=paths=source_relative \
+		--grpc-gateway_out=pb --grpc-gateway_opt=paths=source_relative \
+        proto/*.proto
+.PHONY: createdb dropdb new_migration migrateup migratedown server sqlcmd mock
