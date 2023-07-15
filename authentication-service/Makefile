@@ -22,4 +22,4 @@ proto:
         proto/*.proto
 test:
 	go test -v -cover ./...
-.PHONY: createdb dropdb new_migration migrateup migratedown server sqlcmd mock
+.PHONY: createdb dropdb new_migration migrateup migratedown server sqlcmd mock proto
